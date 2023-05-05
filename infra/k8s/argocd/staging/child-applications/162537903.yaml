@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/sekharrfk/rfk-data-unomi-config-test
-    targetRevision: staging-deployment
+    targetRevision: main
     path: infra/k8s/kustomize/overlays/staging/162537903
   destination:
     server: https://kubernetes.default.svc
