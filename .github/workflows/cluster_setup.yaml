@@ -35,7 +35,7 @@ jobs:
         run:  git checkout -b unomi-cluster-setup-${{ inputs.domain_hash }}
       - name: create cluster config files
         working-directory: ./scripts
-        run:  python create_cluster.py ${{ inputs.environment }} ${{ inputs.domain_hash }} unomi-cluster-setup-${{ inputs.domain_hash }} ${{ inputs.region }}
+        run:  python create_cluster.py ${{ inputs.environment }} ${{ inputs.domain_hash }} main ${{ inputs.region }}
       - name: Set git identity
         run: |
             git config user.name 'github-actions[bot]'
