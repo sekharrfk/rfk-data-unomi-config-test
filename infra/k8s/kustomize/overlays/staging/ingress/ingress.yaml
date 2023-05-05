@@ -46,16 +46,6 @@ spec:
       paths:
       - backend:
           service:
-            name: unomi-209682183
-            port:
-              number: 8181
-        path: /209682183(|$)(.*)
-        pathType: Prefix
-  - host: rfkunomi.staging.rfksrv.com
-    http:
-      paths:
-      - backend:
-          service:
             name: unomi-125757324
             port:
               number: 8181
