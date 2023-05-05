@@ -1,0 +1,25 @@
+bases:
+  - ../root
+
+commonLabels:
+  env: prod
+
+images:
+  - name: 607987562740.dkr.ecr.us-east-1.amazonaws.com/reflektion/rfk-data-unomi
+    newTag: 0bdc23b7878296a2dfa8f3d9587a082f8e4b32ea
+
+patches:
+  - target:
+      kind: Deployment
+      name: unomi
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0
+        value: 
+          name: UNOMI_ELASTICSEARCH_ADDRESSES
+          value: unomi-es01.prod.rfksrv.com:443
+      - op: replace
+        path: /spec/template/spec/containers/0/env/1
+        value: 
+          name: UNOMI_ELASTICSEARCH_CLUSTERNAME
+          value: 607987562740:prod-east-unomi-es-c01

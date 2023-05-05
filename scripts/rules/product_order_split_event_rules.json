@@ -1,0 +1,106 @@
+{
+    "metadata": {
+        "id": "productOrderSplitEvent",
+        "name": "product order split event rule",
+        "description": "Updates various Profile Properties for product order split events",
+        "tags": ["product", "order_split"],
+        "systemTags" : ["sitecoreRule"]
+    },
+    "raiseEventOnlyOnceForSession": false,
+    "condition": {
+        "type": "booleanCondition",
+        "parameterValues": {
+            "operator": "and",
+            "subConditions": [
+                {
+                    "type": "eventTypeCondition",
+                    "parameterValues": {
+                        "eventTypeId": "order_split"
+                    }
+                },
+                {
+                    "type": "eventPropertyCondition",
+                    "parameterValues": {
+                        "propertyName": "properties.entityType",
+                        "comparisonOperator": "equals",
+                        "propertyValue": "product"
+                    }
+                }
+            ]
+        }
+    },
+    "actions": [
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.uniqueOrdered",
+                "setPropertyValue": "eventProperty::properties(entityId)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.uniqueCategoriesOrdered",
+                "setPropertyValue": "eventProperty::properties(categoryIds)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.uniqueStores",
+                "setPropertyValue": "eventProperty::properties(storeId)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.personalisationAttributes.colorsPurchased",
+                "setPropertyValue": "eventProperty::properties(color)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.personalisationAttributes.brandsPurchased",
+                "setPropertyValue": "eventProperty::properties(brand)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.personalisationAttributes.fitmentPurchased",
+                "setPropertyValue": "eventProperty::properties(fitmentsIds)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.personalisationAttributes.sizePurchased",
+                "setPropertyValue": "eventProperty::properties(size)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "session.product.uniqueOrdered",
+                "setPropertyValue": "eventProperty::properties(entityId)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "session.product.uniqueCategoriesOrdered",
+                "setPropertyValue": "eventProperty::properties(categoryIds)",
+                "setPropertyMaxLength": 50
+            }
+        }
+    ]
+}

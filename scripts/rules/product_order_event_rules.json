@@ -1,0 +1,101 @@
+{
+    "metadata": {
+        "id": "productOrderEvent",
+        "name": "product order event rule",
+        "description": "Updates various Profile Properties for product order events",
+        "tags": ["product", "order"],
+        "systemTags" : ["sitecoreRule"]
+    },
+    "raiseEventOnlyOnceForSession": false,
+    "condition": {
+        "type": "eventTypeCondition",
+        "parameterValues": {
+            "eventTypeId": "order"
+        }
+    },
+    "actions": [
+        {
+            "type": "incrementPropertyAction",
+            "parameterValues": {
+                "propertyName": "product.orders"
+            }
+        },
+        {
+            "type": "sumOfValuesAction",
+            "parameterValues": {
+                "setPropertyName": "product.revenue",
+                "setPropertyValue": "eventProperty::properties(revenue)"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.product.lastOrderRevenue",
+                "setPropertyValue": "eventProperty::properties(revenue)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "incrementPropertyAction",
+            "parameterValues": {
+                "propertyName": "session.product.orders"
+            }
+        },
+        {
+            "type": "sumOfValuesAction",
+            "parameterValues": {
+                "setPropertyName": "session.product.revenue",
+                "setPropertyValue": "eventProperty::properties(revenue)"
+            }
+        },
+
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "visitorIds.cuids",
+                "setPropertyValue": "eventProperty::properties(cuid)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "visitorIds.eids",
+                "setPropertyValue": "eventProperty::properties(eid)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "visitorIds.emails",
+                "setPropertyValue": "eventProperty::properties(email)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.visitorIds.cuid",
+                "setPropertyValue": "eventProperty::properties(cuid)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.visitorIds.eid",
+                "setPropertyValue": "eventProperty::properties(eid)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.visitorIds.email",
+                "setPropertyValue": "eventProperty::properties(email)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        }
+    ]
+}

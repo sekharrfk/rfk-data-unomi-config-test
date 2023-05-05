@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: unomi
+  name: unomi
+  namespace: unomi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: unomi
+  template:
+    metadata:
+      labels:
+        service: unomi
+    spec:
+      containers:
+        - env:
+            - name: UNOMI_ELASTICSEARCH_ADDRESSES
+              value: localhost:443
+            - name: UNOMI_ELASTICSEARCH_CLUSTERNAME
+              value: localhost
+            - name: UNOMI_ELASTICSEARCH_SSL_ENABLE
+              value: "true"
+            - name: UNOMI_ELASTICSEARCH_INDEXPREFIX
+              value: context
+          image: 607987562740.dkr.ecr.us-east-1.amazonaws.com/reflektion/rfk-data-unomi:latest
+          imagePullPolicy: Always
+          name: unomi
+          ports:
+            - containerPort: 8181
+            - containerPort: 9443
+            - containerPort: 8102
+      restartPolicy: Always

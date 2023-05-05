@@ -1,0 +1,50 @@
+{
+    "metadata": {
+        "id": "productSearchEvent",
+        "name": "product search event rule",
+        "description": "Updates various Profile Properties for product get search events",
+        "tags": ["product", "search"],
+        "systemTags" : ["sitecoreRule"]
+    },
+    "raiseEventOnlyOnceForSession": false,
+    "condition": {
+        "type": "booleanCondition",
+        "parameterValues": {
+            "operator": "and",
+            "subConditions": [
+                {
+                    "type": "eventTypeCondition",
+                    "parameterValues": {
+                        "eventTypeId": "search"
+                    }
+                },
+                {
+                    "type": "eventPropertyCondition",
+                    "parameterValues": {
+                        "propertyName": "properties.entityType",
+                        "comparisonOperator": "equals",
+                        "propertyValue": "product"
+                    }
+                }
+            ]
+        }
+    },
+    "actions": [
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "uniqueSearches",
+                "setPropertyValue": "eventProperty::properties(keyword)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "session.uniqueSearches",
+                "setPropertyValue": "eventProperty::properties(keyword)",
+                "setPropertyMaxLength": 50
+            }
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+{
+    "metadata": {
+        "id": "contentConversionEvent",
+        "name": "content conversion event rule",
+        "description": "Updates various Profile Properties for content conversion events",
+        "tags": ["content", "conversion"],
+        "systemTags" : ["sitecoreRule"]
+ },
+    "raiseEventOnlyOnceForSession": false,
+    "condition": {
+        "type": "booleanCondition",
+        "parameterValues": {
+            "operator": "and",
+            "subConditions": [
+                {
+                    "type": "eventPropertyCondition",
+                    "parameterValues": {
+                        "propertyName": "properties.actionSubType",
+                        "comparisonOperator": "equals",
+                        "propertyValue": "conversion"
+                    }
+                }
+            ]
+        }
+    },
+    "actions": [
+        {
+            "type": "incrementPropertyAction",
+            "parameterValues": {
+                "propertyName": "content.conversions"
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "content.uniqueConverted",
+                "setPropertyValue": "eventProperty::properties(entityId)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "content.uniqueCategoriesConverted",
+                "setPropertyValue": "eventProperty::properties(categoryIds)",
+                "setPropertyMaxLength": 50
+            }
+        }
+    ]
+}

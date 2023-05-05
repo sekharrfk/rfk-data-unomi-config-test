@@ -1,0 +1,160 @@
+{
+    "metadata": {
+        "id": "sessionEndEvent",
+        "name": "Session End event rule",
+        "description": "Updates various Session Properties at the end of a users session",
+        "tags": ["session", "end"],
+        "systemTags" : ["sitecoreRule"]
+    },
+    "raiseEventOnlyOnceForSession": false,
+    "condition": {
+        "type": "eventTypeCondition",
+        "parameterValues": {
+            "eventTypeId": "session_end"
+        }
+    },
+    "actions": [
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.product.lastViewDate",
+                "setPropertyValue": "eventProperty::properties(productLastViewedTime)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.product.lastClickDate",
+                "setPropertyValue": "eventProperty::properties(productLastClickedTime)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.product.lastOrderDate",
+                "setPropertyValue": "eventProperty::properties(productLastOrderedTime)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.product.lastA2cDate",
+                "setPropertyValue": "eventProperty::properties(productLastA2cTime)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.session.product.views",
+                "setPropertyValueInteger": 0,
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.session.product.clicks",
+                "setPropertyValueInteger": 0,
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.session.product.orders",
+                "setPropertyValueInteger": 0,
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.session.product.a2c",
+                "setPropertyValueInteger": 0,
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.session.product.revenue",
+                "setPropertyValue": 0.0,
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.session.product.uniqueViewed",
+                "setPropertyValue": [],
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.session.product.uniqueOrdered",
+                "setPropertyValue": [],
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.session.product.uniqueCategoriesViewed",
+                "setPropertyValue": [],
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.session.product.uniqueCategoriesOrdered",
+                "setPropertyValue": [],
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.session.uniqueSearches",
+                "setPropertyValue": [],
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.lastVisitDate",
+                "setPropertyValue": "eventProperty::properties(sessionEndTime)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "incrementPropertyAction",
+            "parameterValues": {
+                "propertyName": "numSessions"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.lastSessionDuration",
+                "setPropertyValue": "eventProperty::properties(sessionDuration)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.firstVisitDate",
+                "setPropertyValue": "eventProperty::properties(sessionEndTime)",
+                "setPropertyStrategy": "setIfMissing"
+            }
+        }
+    ]
+}

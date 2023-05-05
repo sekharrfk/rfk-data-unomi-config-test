@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: $2
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+  labels:
+    app.kubernetes.io/instance: unomi-ingress
+  name: unomi
+  namespace: unomi
+spec:
+  rules:
+  - host: rfkunomi.prod.rfksrv.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: unomi-162537903
+            port:
+              number: 8181
+        path: /162537903(|$)(.*)
+        pathType: Prefix
+  - host: rfkunomi.prod.rfksrv.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: unomi-34957223
+            port:
+              number: 8181
+        path: /34957223(|$)(.*)
+        pathType: Prefix
+  - host: rfkunomi.prod.rfksrv.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: unomi-262300170
+            port:
+              number: 8181
+        path: /262300170(|$)(.*)
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - hostname: acfbb72c8b9734b11b1fa7c6cce83b02-4985476f15c4235f.elb.us-east-1.amazonaws.com
