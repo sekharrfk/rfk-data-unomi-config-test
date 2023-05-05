@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/sekharrfk/rfk-data-unomi-config
+    repoURL: https://github.com/sekharrfk/rfk-data-unomi-config-test
     targetRevision: staging-deployment
     path: infra/k8s/kustomize/overlays/staging/34957223
   destination:

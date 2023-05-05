@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/sekharrfk/rfk-data-unomi-config
+    repoURL: https://github.com/sekharrfk/rfk-data-unomi-config-test
     targetRevision: main
     path: infra/k8s/argocd/prod-us/child-applications
   destination:
