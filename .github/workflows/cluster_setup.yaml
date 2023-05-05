@@ -1,0 +1,79 @@
+name: Unomi Cluster Setup
+on:
+  workflow_dispatch:
+    inputs:
+      domain_hash:
+        description: Domain Hash
+        require: true
+      environment:
+        type: choice
+        description: Environment
+        require: true
+        default: staging
+        options:
+          - staging
+          - prod
+      region:
+        type: choice
+        description: AWS region
+        require: true
+        default: us
+        options:
+          - us
+          - eu
+          - ap
+
+permissions: write-all
+
+jobs:
+  cluster_setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo checkout
+        uses: actions/checkout@v3
+      - name: create branch
+        run:  git checkout -b unomi-cluster-setup-${{ inputs.domain_hash }}
+      - name: create cluster config files
+        working-directory: ./scripts
+        run:  python create_cluster.py ${{ inputs.environment }} ${{ inputs.domain_hash }} unomi-cluster-setup-${{ inputs.domain_hash }} ${{ inputs.region }}
+      - name: Set git identity
+        run: |
+            git config user.name 'github-actions[bot]'
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: commit the files
+        run:  git add -A && git commit -am "add ${{ inputs.domain_hash }} cluster to ${{ inputs.environment }}-${{ inputs.region }}"
+      - name: push to repo
+        run:  git push -u origin unomi-cluster-setup-${{ inputs.domain_hash }}
+      - name: create a pr
+        run:  gh pr create -B main -H unomi-cluster-setup-${{ inputs.domain_hash }} --title "add ${{ inputs.domain_hash }} cluster to ${{ inputs.environment }}-${{ inputs.region }}" --body ""
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: merge the pr
+        run:  gh pr merge unomi-cluster-setup-${{ inputs.domain_hash }} --merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: cluster verification
+        run:  sleep 300
+
+  cluster_initialization:
+    needs:   cluster_setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo checkout
+        uses: actions/checkout@v3
+      - name: scope setup
+        run:  python scripts/initialize_cluster.py -e ${{ inputs.environment }} -o scopes -d ${{ inputs.domain_hash }}
+        env:
+          auth_token: ${{ secrets.auth_token }}
+      - name: rules setup
+        run:  python scripts/initialize_cluster.py -e ${{ inputs.environment }} -o rules -d ${{ inputs.domain_hash }}
+        env:
+          auth_token: ${{ secrets.auth_token }}
+      - name: schema setup
+        run:  python scripts/initialize_cluster.py -e ${{ inputs.environment }} -o schemas -d ${{ inputs.domain_hash }}
+        env:
+          auth_token: ${{ secrets.auth_token }}
+      - name: profile-properties setup
+        run:  python scripts/initialize_cluster.py -e ${{ inputs.environment }} -o profile-properties -d ${{ inputs.domain_hash }}
+        env:
+          auth_token: ${{ secrets.auth_token }}
