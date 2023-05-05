@@ -1,0 +1,10 @@
+host: rfkunomi.{{env}}.rfksrv.com
+http:
+  paths:
+    - backend:
+        service:
+          name: unomi-{{domain_hash}}
+          port:
+            number: 8181
+      path: /{{domain_hash}}(|$)(.*)
+      pathType: Prefix

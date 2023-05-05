@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: unomi-{{domain_hash}}
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sekharrfk/rfk-data-unomi-config
+    targetRevision: {{branch}}
+    path: infra/k8s/kustomize/overlays/{{env}}/{{domain_hash}}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: unomi
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

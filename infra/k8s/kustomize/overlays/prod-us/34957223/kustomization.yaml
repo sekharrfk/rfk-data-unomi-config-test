@@ -1,0 +1,18 @@
+bases:
+  - ../../../base/prod-us-root
+
+commonLabels:
+  domainHash: "34957223"
+
+nameSuffix: "-34957223"
+
+patches:
+  - target:
+      kind: Deployment
+      name: unomi
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env/3
+        value:
+          name: UNOMI_ELASTICSEARCH_INDEXPREFIX
+          value: context-34957223

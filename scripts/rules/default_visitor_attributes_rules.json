@@ -1,0 +1,139 @@
+{
+    "metadata": {
+        "id": "defaultVisitorAttributes",
+        "name": "default visitor attribute rule",
+        "description": "Updates various visitor properties for all the events",
+        "tags": ["generic"],
+        "systemTags" : ["sitecoreRule"]
+    },
+    "raiseEventOnlyOnceForSession": false,
+    "condition": {
+        "type": "eventPropertyCondition",
+        "parameterValues": {
+            "propertyName" : "properties.domainHash",
+            "comparisonOperator" : "exists"
+        }
+    },
+    "actions": [
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.domainHash",
+                "setPropertyValue": "eventProperty::properties(domainHash)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.domainName",
+                "setPropertyValue": "eventProperty::properties(domainName)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.account",
+                "setPropertyValue": "eventProperty::properties(account)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.appType",
+                "setPropertyValue": "eventProperty::properties(appType)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.device",
+                "setPropertyValue": "eventProperty::properties(device)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "devices",
+                "setPropertyValue": "eventProperty::properties(device)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "uuids",
+                "setPropertyValue": "eventProperty::properties(uuid)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.region",
+                "setPropertyValue": "eventProperty::properties(region)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.country",
+                "setPropertyValue": "eventProperty::properties(country)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.city",
+                "setPropertyValue": "eventProperty::properties(city)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.zipCode",
+                "setPropertyValue": "eventProperty::properties(zipCode)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "channel",
+                "setPropertyValue": "eventProperty::properties(channel)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.isUserActive",
+                "setPropertyValue": "eventProperty::properties(isUserActive)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.uuid",
+                "setPropertyStrategy": "alwaysSet",
+                "setPropertyValue": "eventProperty::properties(uuid)"
+            }
+        },
+        {
+            "type": "mergeProfilesOnPropertyAction",
+            "parameterValues": {
+                "mergeProfilePropertyValue": "eventProperty::properties(clusterId)",
+                "mergeProfilePropertyName": "clusterIdMergeIdentifier",
+                "forceEventProfileAsMaster": true
+            }
+        }
+    ]
+}

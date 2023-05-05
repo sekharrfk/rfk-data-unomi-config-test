@@ -1,0 +1,83 @@
+{
+    "metadata": {
+        "id": "userLoginEvent",
+        "name": "user login rule",
+        "description": "Updates user login Check if user logged in in the current session",
+        "tags": ["user", "login"],
+        "systemTags" : ["sitecoreRule"]
+    },
+    "raiseEventOnlyOnceForSession": false,
+    "condition": {
+        "type": "eventTypeCondition",
+        "parameterValues": {
+            "eventTypeId": "user_login"
+        }
+    },
+    "actions": [
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.isUserLoggedIn",
+                "setPropertyValueBoolean": true,
+                "setPropertyStrategy": "setIfMissing"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.isUserSignedUp",
+                "setPropertyValueBoolean": true,
+                "setPropertyStrategy": "setIfMissing"
+            }
+        },
+
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "visitorIds.cuids",
+                "setPropertyValue": "eventProperty::properties(cuid)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "visitorIds.eids",
+                "setPropertyValue": "eventProperty::properties(eid)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "visitorIds.emails",
+                "setPropertyValue": "eventProperty::properties(email)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.visitorIds.cuid",
+                "setPropertyValue": "eventProperty::properties(cuid)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.visitorIds.eid",
+                "setPropertyValue": "eventProperty::properties(eid)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        },
+        {
+            "type": "setPropertyAction",
+            "parameterValues": {
+                "setPropertyName": "properties.visitorIds.email",
+                "setPropertyValue": "eventProperty::properties(email)",
+                "setPropertyStrategy": "alwaysSet"
+            }
+        }
+    ]
+}

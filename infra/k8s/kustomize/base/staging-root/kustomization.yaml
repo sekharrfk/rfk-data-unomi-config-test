@@ -1,0 +1,25 @@
+bases:
+  - ../root
+
+commonLabels:
+  env: staging
+
+images:
+  - name: 607987562740.dkr.ecr.us-east-1.amazonaws.com/reflektion/rfk-data-unomi
+    newTag: 9d6eb76f53cb33370ae2cf0bcc40c843f003e70e
+
+patches:
+  - target:
+      kind: Deployment
+      name: unomi
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0
+        value: 
+          name: UNOMI_ELASTICSEARCH_ADDRESSES
+          value: unomi-es02.staging.rfksrv.com:443
+      - op: replace
+        path: /spec/template/spec/containers/0/env/1
+        value: 
+          name: UNOMI_ELASTICSEARCH_CLUSTERNAME
+          value: 607987562740:staging-east-unomi-es-c02

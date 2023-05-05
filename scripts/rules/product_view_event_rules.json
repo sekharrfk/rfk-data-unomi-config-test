@@ -1,0 +1,110 @@
+{
+    "metadata": {
+        "id": "productViewEvent",
+        "name": "product View event rule",
+        "description": "Updates various Profile Properties for product view events",
+        "tags": ["product", "view"],
+        "systemTags" : ["sitecoreRule"]
+    },
+    "raiseEventOnlyOnceForSession": false,
+    "condition": {
+        "type": "booleanCondition",
+        "parameterValues": {
+            "operator": "and",
+            "subConditions": [
+                {
+                    "type": "eventTypeCondition",
+                    "parameterValues": {
+                        "eventTypeId": "entity_view"
+                    }
+                },
+                {
+                    "type": "eventPropertyCondition",
+                    "parameterValues": {
+                        "propertyName": "properties.entityType",
+                        "comparisonOperator": "equals",
+                        "propertyValue": "product"
+                    }
+                }
+            ]
+        }
+    },
+    "actions": [
+        {
+            "type": "incrementPropertyAction",
+            "parameterValues": {
+                "propertyName": "product.views"
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.uniqueViewed",
+                "setPropertyValue": "eventProperty::properties(entityId)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.uniqueCategoriesViewed",
+                "setPropertyValue": "eventProperty::properties(categoryIds)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.personalisationAttributes.colorsViewed",
+                "setPropertyValue": "eventProperty::properties(color)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.personalisationAttributes.brandsViewed",
+                "setPropertyValue": "eventProperty::properties(brand)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.personalisationAttributes.fitmentViewed",
+                "setPropertyValue": "eventProperty::properties(fitmentsIds)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "product.personalisationAttributes.sizeViewed",
+                "setPropertyValue": "eventProperty::properties(size)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "incrementPropertyAction",
+            "parameterValues": {
+                "propertyName": "session.product.views"
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "session.product.uniqueViewed",
+                "setPropertyValue": "eventProperty::properties(entityId)",
+                "setPropertyMaxLength": 50
+            }
+        },
+        {
+            "type": "addDistinctValuesToListAction",
+            "parameterValues": {
+                "setPropertyName": "session.product.uniqueCategoriesViewed",
+                "setPropertyValue": "eventProperty::properties(categoryIds)",
+                "setPropertyMaxLength": 50
+            }
+        }
+    ]
+}
