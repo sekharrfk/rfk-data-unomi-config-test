@@ -51,6 +51,16 @@ spec:
               number: 8181
         path: /125757324(|$)(.*)
         pathType: Prefix
+  - host: rfkunomi.staging.rfksrv.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: unomi-43081656
+            port:
+              number: 8181
+        path: /43081656(|$)(.*)
+        pathType: Prefix
 status:
   loadBalancer:
     ingress:
