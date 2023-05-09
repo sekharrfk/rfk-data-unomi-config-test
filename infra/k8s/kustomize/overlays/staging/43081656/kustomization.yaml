@@ -1,0 +1,18 @@
+bases:
+  - ../../../base/staging-root
+
+commonLabels:
+  domainHash: "43081656"
+
+nameSuffix: "-43081656"
+
+patches:
+  - target:
+      kind: Deployment
+      name: unomi
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env/3
+        value:
+          name: UNOMI_ELASTICSEARCH_INDEXPREFIX
+          value: context-43081656
