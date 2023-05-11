@@ -1,0 +1,40 @@
+name: Unomi Cluster Setup
+on:
+  workflow_dispatch:
+    inputs:
+      domain_hash:
+        description: Domain Hash
+        require: true
+      environment:
+        type: choice
+        description: Environment
+        require: true
+        default: staging
+        options:
+          - staging
+          - prod
+      region:
+        type: choice
+        description: AWS region
+        require: true
+        default: us
+        options:
+          - us
+          - eu
+          - ap
+
+permissions: write-all
+
+jobs:
+  unomi_config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: domain mapping config download
+        uses: keithweaver/aws-s3-github-action@v1.0.0
+        with:
+          command: cp
+          source: s3://rfk-dataplatform-staging/config/domain_mapping.json
+          destination: ./all_domain_mapping.json
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-east-1
