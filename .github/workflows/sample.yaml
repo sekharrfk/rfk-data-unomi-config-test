@@ -1,4 +1,4 @@
-name: Unomi Cluster Setup
+name: AWS S3
 on:
   workflow_dispatch:
     inputs:
