@@ -27,7 +27,7 @@ def main(domain_hash, all_domain_mapping_file, unomi_domain_mapping_file):
     else:
         logging.error("No domain {domain_hash} found".format(domain_hash=domain_hash))
 
-    write_domain_mapping(unomi_domain_mapping_file, unomi_domains)
+    write_domain_mapping('domain_mapping.json', unomi_domains)
 
 
 if __name__ == '__main__':
