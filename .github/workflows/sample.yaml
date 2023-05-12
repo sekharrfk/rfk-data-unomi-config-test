@@ -53,5 +53,12 @@ jobs:
         run: ls -l
       - name: add domain to unomi config
         run:  python scripts/unomi_config.py ${{ inputs.domain_hash }} all_domain_mapping.json unomi_domain_mapping.json
-      - name: verification
-        run: cat domain_mapping.json
+      - name: unomi domain mapping config upload
+        uses: keithweaver/aws-s3-github-action@v1.0.0
+        with:
+          command: cp
+          source: ./domain_mapping.json
+          destination: s3://devops.reflektion.com/configs/dataplatform/streaming/unomi/${{ inputs.environment }}/domain_mapping.json
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-east-1
